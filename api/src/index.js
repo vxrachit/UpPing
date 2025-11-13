@@ -60,7 +60,7 @@ function buildAdvice(classification) {
     case "timeout":
       return "The site took too long to respond. Possibly under heavy load.";
     case "client_error":
-      return "Client-side error (4xx). Verify the request or endpoint.";
+      return "Access denied or client error. The site may block automated requests or require authentication.";
     case "server_error":
       return "Server-side error (5xx). The server may be down.";
     case "cloudflare_internal_error":
@@ -93,6 +93,7 @@ function computeHealthScore(statusCode, classification, responseTime) {
   if (classification === "ssl_error" || classification === "timeout" || classification === "network_error")
     return 25;
   if (statusCode >= 500) return 40;
+  if (statusCode === 403) return 70; // 403 often means site is working but blocking automated requests
   if (statusCode >= 400) return 60;
   if (statusCode === 200) {
     if (responseTime < 500) return 100;
@@ -109,13 +110,33 @@ async function fetchWithRedirectTrace(url, timeoutMs = 10000) {
   let currentUrl = url;
   const redirects = [];
 
+  // Browser-like headers to avoid bot detection
+  const browserHeaders = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "Upgrade-Insecure-Requests": "1"
+  };
+
   let res;
   let redirectCount = 0;
   let ttfb = 0;
 
   try {
     const ttfbStart = performance.now();
-    res = await fetch(currentUrl, { method: "HEAD", redirect: "manual", signal: controller.signal });
+    res = await fetch(currentUrl, { 
+      method: "HEAD", 
+      redirect: "manual", 
+      signal: controller.signal,
+      headers: browserHeaders
+    });
     ttfb = Math.round(performance.now() - ttfbStart);
   } catch {
     const retryStart = performance.now();
@@ -123,7 +144,10 @@ async function fetchWithRedirectTrace(url, timeoutMs = 10000) {
       method: "GET",
       redirect: "manual",
       signal: controller.signal,
-      headers: { Range: "bytes=0-0" },
+      headers: {
+        ...browserHeaders,
+        Range: "bytes=0-1023" // Get first 1KB instead of just 1 byte
+      },
     });
     ttfb = Math.round(performance.now() - retryStart);
   }
@@ -136,7 +160,12 @@ async function fetchWithRedirectTrace(url, timeoutMs = 10000) {
     currentUrl = nextUrl;
     
     const redirectStart = performance.now();
-    res = await fetch(currentUrl, { method: "HEAD", redirect: "manual", signal: controller.signal });
+    res = await fetch(currentUrl, { 
+      method: "HEAD", 
+      redirect: "manual", 
+      signal: controller.signal,
+      headers: browserHeaders
+    });
     ttfb = Math.round(performance.now() - redirectStart);
     redirectCount++;
   }
