@@ -110,8 +110,7 @@ async function fetchWithRedirectTrace(url, timeoutMs = 10000) {
   let currentUrl = url;
   const redirects = [];
 
-  // Browser-like headers to avoid bot detection
-  const browserHeaders = {
+   const browserHeaders = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
@@ -146,7 +145,7 @@ async function fetchWithRedirectTrace(url, timeoutMs = 10000) {
       signal: controller.signal,
       headers: {
         ...browserHeaders,
-        Range: "bytes=0-1023" // Get first 1KB instead of just 1 byte
+        Range: "bytes=0-1023"
       },
     });
     ttfb = Math.round(performance.now() - retryStart);
