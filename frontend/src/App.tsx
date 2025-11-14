@@ -26,14 +26,20 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors flex flex-col">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 relative">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-32 left-32 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-32 right-32 w-64 h-64 bg-purple-400/10 rounded-full blur-3xl"></div>
+      </div>
+      
       <Header
         theme={theme}
         toggleTheme={toggleTheme}
         currentPage={currentPage}
         onNavigate={(page) => setCurrentPage(page as Page)}
       />
-      <main className="flex-grow">{renderPage()}</main>
+      <main className="flex-grow relative z-10">{renderPage()}</main>
       <Footer />
     </div>
   );

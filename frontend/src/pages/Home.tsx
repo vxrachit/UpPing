@@ -69,6 +69,11 @@ export const Home = () => {
     }
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleCheck();
+  };
+
   const handleCheck = async () => {
     setError('');
     setResult(null);
@@ -119,152 +124,139 @@ export const Home = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-      <div className="text-center space-y-6 animate-fade-in">
-        <div className="inline-flex items-center justify-center space-x-2 px-4 py-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-full mb-4">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          <span className="text-sm font-medium text-green-700 dark:text-green-400">Live Monitoring</span>
+    <div className="relative max-w-6xl mx-auto px-6 py-12 space-y-16">
+      {/* Clean Hero Section */}
+      <div className="text-center space-y-8">
+        {/* Status Indicator */}
+        <div className="inline-flex items-center space-x-2 px-4 py-2 bg-emerald-50/80 dark:bg-emerald-900/20 border border-emerald-200/50 dark:border-emerald-700/30 rounded-full shadow-sm">
+          <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+          <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">Live Monitoring Active</span>
         </div>
         
-        <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-          Website Uptime <span className="text-green-600 dark:text-green-500">Checker</span>
-        </h1>
-        
-        <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-          Monitor your website's health in real-time. Check availability, validate SSL certificates, 
-          and analyze performance metrics instantly.
-        </p>
+        {/* Main Headline */}
+        <div className="space-y-4">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+            Professional Website
+            <span className="block text-blue-600 dark:text-blue-400">
+              Monitoring
+            </span>
+          </h1>
+          
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Monitor your websites with enterprise-grade reliability. Get instant alerts,
+            performance insights, and comprehensive uptime tracking.
+          </p>
+        </div>
 
-        <div className="flex items-center justify-center gap-8 pt-4 text-sm">
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-green-600 dark:text-green-400" />
-            <span className="text-gray-600 dark:text-gray-400">Instant Results</span>
+        {/* Feature Highlights */}
+        <div className="flex flex-wrap justify-center gap-6 pt-4">
+          <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400">
+            <Clock className="w-4 h-4 text-blue-500" />
+            <span className="text-sm font-medium">Real-time Alerts</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Shield className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-            <span className="text-gray-600 dark:text-gray-400">SSL Verified</span>
+          <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400">
+            <Shield className="w-4 h-4 text-blue-500" />
+            <span className="text-sm font-medium">SSL Monitoring</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Globe className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-            <span className="text-gray-600 dark:text-gray-400">Global Checks</span>
+          <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400">
+            <TrendingUp className="w-4 h-4 text-blue-500" />
+            <span className="text-sm font-medium">Performance Analytics</span>
           </div>
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 space-y-6 border border-gray-200 dark:border-gray-700">
-        <div>
-          <label htmlFor="url-input" className="block text-sm font-bold text-gray-900 dark:text-white mb-3 uppercase tracking-wide">
-            Enter Website URL
-          </label>
-          <div className="relative group">
-            <input
-              id="url-input"
-              type="text"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="example.com or https://example.com"
-              className="w-full px-5 py-5 pl-14 pr-5 text-lg text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 hover:border-gray-400 dark:hover:border-gray-500"
-              disabled={loading}
-              autoFocus
-            />
-            <div className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 group-hover:text-gray-500 transition-colors">
-              <Search className="w-5 h-5" />
+      {/* Monitoring Form */}
+      <div className="relative">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
+          <div className="p-8">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Start Monitoring</h2>
+              <p className="text-gray-600 dark:text-gray-400">Enter your website URL to begin comprehensive monitoring</p>
+            </div>
+            
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Website URL
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    placeholder="https://your-website.com"
+                    className="w-full pl-12 pr-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    disabled={loading}
+                  />
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                    <Globe className="w-5 h-5" />
+                  </div>
+                </div>
+              </div>
+              
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-sm"
+              >
+                {loading ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Analyzing...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center space-x-2">
+                    <Search className="w-5 h-5" />
+                    <span>Start Monitoring</span>
+                  </div>
+                )}
+              </button>
+            </form>
+
+            {error && (
+              <div className="mt-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+                  <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
+                </div>
+              </div>
+            )}
+            
+            {/* Features Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <div className="text-center">
+                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <Clock className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                </div>
+                <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Real-time Monitoring</h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Continuous uptime checks</p>
+              </div>
+              <div className="text-center">
+                <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <Shield className="w-5 h-5 text-green-600 dark:text-green-400" />
+                </div>
+                <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Security Monitoring</h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">SSL & security checks</p>
+              </div>
+              <div className="text-center">
+                <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <TrendingUp className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                </div>
+                <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Performance Insights</h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Detailed analytics</p>
+              </div>
             </div>
           </div>
         </div>
-
-        {error && (
-          <div className="flex items-start space-x-3 p-5 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 rounded-xl">
-            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-            <div className="flex-1">
-              <p className="text-sm font-bold text-red-800 dark:text-red-300 mb-1">Error</p>
-              <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
-            </div>
-          </div>
-        )}
-
-        <button
-          onClick={handleCheck}
-          disabled={loading}
-          className="w-full py-5 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 disabled:from-gray-400 disabled:to-gray-500 text-white text-lg font-bold rounded-xl transition-all duration-200 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl disabled:shadow-none disabled:cursor-not-allowed transform hover:scale-[1.01] active:scale-[0.99] disabled:transform-none"
-        >
-          {loading ? (
-            <>
-              <Loader2 className="w-6 h-6 animate-spin" />
-              <span>Analyzing Website...</span>
-            </>
-          ) : (
-            <>
-              <Search className="w-6 h-6" />
-              <span>Check Website Status</span>
-            </>
-          )}
-        </button>
-
-        {!loading && !error && !result && (
-          <div className="flex items-center justify-center space-x-2 text-sm text-gray-500 dark:text-gray-400 pt-2">
-            <span>💡 Pro tip: Press</span>
-            <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-xs font-mono">Enter</kbd>
-            <span>to check instantly</span>
-          </div>
-        )}
       </div>
 
       {result && <ResultCard result={result} />}
 
-      {!result && !loading && recentChecks.length === 0 && (
-        <div className="space-y-6">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-              What We Monitor
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400">
-              Comprehensive website health checks in one place
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-xl p-6 border-2 border-green-200 dark:border-green-800 hover:shadow-lg transition-shadow">
-              <div className="inline-flex items-center justify-center w-14 h-14 bg-green-500 rounded-xl mb-4 shadow-lg">
-                <CheckCircle className="w-7 h-7 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                Uptime Status
-              </h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                Instant verification of website availability with detailed HTTP status codes and response validation
-              </p>
-            </div>
-
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800 hover:shadow-lg transition-shadow">
-              <div className="inline-flex items-center justify-center w-14 h-14 bg-blue-500 rounded-xl mb-4 shadow-lg">
-                <Shield className="w-7 h-7 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                SSL Validation
-              </h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                Automatic SSL certificate verification to ensure your website's security and trustworthiness
-              </p>
-            </div>
-
-            <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 rounded-xl p-6 border-2 border-yellow-200 dark:border-yellow-800 hover:shadow-lg transition-shadow">
-              <div className="inline-flex items-center justify-center w-14 h-14 bg-yellow-500 rounded-xl mb-4 shadow-lg">
-                <TrendingUp className="w-7 h-7 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                Performance Metrics
-              </h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                Real-time analysis of response time, TTFB, and overall health score for optimization insights
-              </p>
-            </div>
-          </div>
+      {recentChecks.length > 0 && (
+        <div className="mt-12">
+          <RecentChecks checks={recentChecks} onSelectUrl={setUrl} />
         </div>
       )}
-
-      <RecentChecks checks={recentChecks} onSelectUrl={handleSelectUrl} />
     </div>
   );
 };
