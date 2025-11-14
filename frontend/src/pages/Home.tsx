@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Search, AlertCircle, Loader2, CheckCircle, Shield, Clock, TrendingUp, Globe } from 'lucide-react';
+import { Search, AlertCircle, Loader2, Shield, Clock, TrendingUp, Globe } from 'lucide-react';
 import { checkWebsite, CheckResponse } from '../lib/api';
 import { ResultCard } from '../components/ResultCard';
 import { RecentChecks } from '../components/RecentChecks';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 interface RecentCheck {
   url: string;
@@ -17,6 +18,10 @@ export const Home = () => {
   const [error, setError] = useState('');
   const [result, setResult] = useState<CheckResponse | null>(null);
   const [recentChecks, setRecentChecks] = useLocalStorage<RecentCheck[]>('recentChecks', []);
+
+  const heroAnim = useScrollAnimation();
+  const formAnim = useScrollAnimation();
+  const recentAnim = useScrollAnimation();
 
   const validateUrl = (input: string): boolean => {
     if (!input.trim()) {
@@ -111,22 +116,14 @@ export const Home = () => {
     }
   };
 
-  const handleSelectUrl = (selectedUrl: string) => {
-    setUrl(selectedUrl);
-    setError('');
-    setResult(null);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleCheck();
-    }
-  };
 
   return (
     <div className="relative max-w-6xl mx-auto px-6 py-12 space-y-16">
       {/* Clean Hero Section */}
-      <div className="text-center space-y-8">
+      <div 
+        ref={heroAnim.ref}
+        className={`text-center space-y-8 transition-all duration-700 ease-out ${heroAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+      >
         {/* Status Indicator */}
         <div className="inline-flex items-center space-x-2 px-4 py-2 bg-emerald-50/80 dark:bg-emerald-900/20 border border-emerald-200/50 dark:border-emerald-700/30 rounded-full shadow-sm">
           <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
@@ -166,7 +163,10 @@ export const Home = () => {
       </div>
 
       {/* Monitoring Form */}
-      <div className="relative">
+      <div 
+        ref={formAnim.ref}
+        className={`relative transition-all duration-700 ease-out ${formAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+      >
         <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
           <div className="p-8">
             <div className="text-center mb-8">
@@ -253,7 +253,10 @@ export const Home = () => {
       {result && <ResultCard result={result} />}
 
       {recentChecks.length > 0 && (
-        <div className="mt-12">
+        <div 
+          ref={recentAnim.ref}
+          className={`mt-12 transition-all duration-700 ease-out ${recentAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+        >
           <RecentChecks checks={recentChecks} onSelectUrl={setUrl} />
         </div>
       )}

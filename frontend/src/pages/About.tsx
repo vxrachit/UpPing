@@ -1,9 +1,15 @@
 import { Activity, Zap, Shield, Globe } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 export const About = () => {
+  const heroAnim = useScrollAnimation();
+  const contentAnim = useScrollAnimation();
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-      <div className="text-center space-y-4 animate-fade-in">
+      <div 
+        ref={heroAnim.ref}
+        className={`text-center space-y-4 transition-all duration-700 ease-out ${heroAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+      >
         <div className="flex items-center justify-center space-x-3">
           <Activity className="w-12 h-12 text-green-500" />
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white">
@@ -15,7 +21,10 @@ export const About = () => {
         </p>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 space-y-6">
+      <div 
+        ref={contentAnim.ref}
+        className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 space-y-6 transition-all duration-700 ease-out ${contentAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+      >
         <div>
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
             What is UpPing?

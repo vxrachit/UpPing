@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Activity, CheckCircle2, XCircle, Loader2, RefreshCw } from 'lucide-react';
 import { checkHealth, HealthResponse } from '../lib/api';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 export const Health = () => {
   const [loading, setLoading] = useState(true);
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [error, setError] = useState(false);
+
+  const heroAnim = useScrollAnimation();
+  const contentAnim = useScrollAnimation();
 
   const fetchHealth = async () => {
     setLoading(true);
@@ -35,7 +39,10 @@ export const Health = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-      <div className="text-center space-y-4 animate-fade-in">
+      <div 
+        ref={heroAnim.ref}
+        className={`text-center space-y-4 transition-all duration-700 ease-out ${heroAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+      >
         <div className="flex items-center justify-center space-x-3">
           <Activity className="w-12 h-12 text-green-500" />
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white">
@@ -48,12 +55,18 @@ export const Health = () => {
       </div>
 
       {loading ? (
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 flex flex-col items-center justify-center space-y-4 border border-gray-200 dark:border-gray-700">
+        <div 
+          ref={contentAnim.ref}
+          className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 flex flex-col items-center justify-center space-y-4 border border-gray-200 dark:border-gray-700 transition-all duration-700 ease-out ${contentAnim.isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+        >
           <Loader2 className="w-12 h-12 text-green-500 animate-spin" />
           <p className="text-gray-600 dark:text-gray-400 font-medium">Checking backend status...</p>
         </div>
       ) : error ? (
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 space-y-6 border-l-4 border-red-500">
+        <div 
+          ref={contentAnim.ref}
+          className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 space-y-6 border-l-4 border-red-500 transition-all duration-700 ease-out ${contentAnim.isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+        >
           <div className="flex flex-col items-center space-y-4">
             <div className="p-4 bg-red-100 dark:bg-red-900/30 rounded-full">
               <XCircle className="w-16 h-16 text-red-500" />
@@ -73,7 +86,10 @@ export const Health = () => {
         </div>
       ) : (
         health && (
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 space-y-6 animate-fade-in border-l-4 border-green-500">
+          <div 
+            ref={contentAnim.ref}
+            className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 space-y-6 border-l-4 border-green-500 transition-all duration-700 ease-out ${contentAnim.isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+          >
             <div className="flex flex-col items-center space-y-4">
               <div className="p-4 bg-green-100 dark:bg-green-900/30 rounded-full">
                 <CheckCircle2 className="w-16 h-16 text-green-500" />
