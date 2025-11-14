@@ -118,25 +118,25 @@ export const ResultCard = ({ result }: ResultCardProps) => {
       <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-professional-lg p-8 space-y-8 border border-gray-200/60 dark:border-gray-700/60">
         
         {/* Status Header */}
-        <div className={`relative overflow-hidden flex items-center justify-between p-8 rounded-2xl ${statusInfo.bgColor} border-2 ${statusInfo.advisoryBorder}`}>
+        <div className={`relative overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 sm:p-8 rounded-2xl ${statusInfo.bgColor} border-2 ${statusInfo.advisoryBorder}`}>
           <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-50"></div>
-          <div className="relative flex items-center space-x-6">
-            <div className="p-4 bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow-lg backdrop-blur-sm">
-              <StatusIcon className={`w-12 h-12 ${statusInfo.textColor}`} strokeWidth={2} />
+          <div className="relative flex items-center space-x-4 sm:space-x-6">
+            <div className="p-3 sm:p-4 bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow-lg backdrop-blur-sm">
+              <StatusIcon className={`w-10 h-10 sm:w-12 sm:h-12 ${statusInfo.textColor}`} strokeWidth={2} />
             </div>
             <div>
-              <h2 className={`text-4xl font-black ${statusInfo.textColor} tracking-tight`}>
+              <h2 className={`text-2xl sm:text-4xl font-black ${statusInfo.textColor} tracking-tight`}>
                 {statusInfo.label}
               </h2>
-              <p className={`text-base font-semibold ${statusInfo.advisoryText} mt-2`}>
+              <p className={`text-sm sm:text-base font-semibold ${statusInfo.advisoryText} mt-1 sm:mt-2`}>
                 HTTP {result.statusCode} • {result.reason}
               </p>
             </div>
           </div>
           {result.cached && (
-            <div className="relative flex items-center space-x-3 text-blue-600 dark:text-blue-400 bg-blue-100/80 dark:bg-blue-900/40 backdrop-blur-sm px-6 py-3 rounded-xl border border-blue-200 dark:border-blue-700 font-semibold">
-              <Zap className="w-5 h-5" />
-              <span>Cached Result</span>
+            <div className="relative flex items-center space-x-2 text-blue-600 dark:text-blue-400 bg-blue-100/80 dark:bg-blue-900/40 backdrop-blur-sm px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-blue-200 dark:border-blue-700 font-semibold whitespace-nowrap">
+              <Zap className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">Cached Result</span>
             </div>
           )}
         </div>
