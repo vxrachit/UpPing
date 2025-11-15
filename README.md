@@ -329,7 +329,6 @@ If you have any questions or need help:
 
 - 📧 Email: [mail@vxrachit.is-a.dev](mailto:mail@vxrachit.is-a.dev)
 - 🐛 Issues: [GitHub Issues](https://github.com/vxrachit/UpPing/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/vxrachit/UpPing/discussions)
 
 ---
 
