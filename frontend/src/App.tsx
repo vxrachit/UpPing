@@ -40,7 +40,7 @@ function App() {
         onNavigate={(page) => setCurrentPage(page as Page)}
       />
       <main className="flex-grow relative z-10">{renderPage()}</main>
-      <Footer />
+      <Footer onNavigate={(page) => setCurrentPage(page as Page)} />
     </div>
   );
 }
